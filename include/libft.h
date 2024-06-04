@@ -6,7 +6,7 @@
 /*   By: olramazz <olramazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 15:07:46 by olramazz          #+#    #+#             */
-/*   Updated: 2023/12/27 15:32:47 by olramazz         ###   ########.fr       */
+/*   Updated: 2024/06/04 21:13:55 by olramazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int			ft_isalpha(int c);
 int			ft_isascii(int c);
 int			ft_isdigit(int c);
 int			ft_isprint(int c);
-int			my_isspace(char c);
+int			ft_isspace(char c);
 char		*ft_itoa(int n);
 void		*ft_memccpy(void *dest, const void *src, int c, size_t n);
 void		*ft_memchr(const void *source, int charset, size_t n_bytes);
@@ -39,6 +39,7 @@ void		ft_putstr_fd(char *s, int fd);
 void		ft_striteri(char *s, void (*f)(unsigned int, char*));
 char		**ft_split(const char *str, char delimiter);
 char		*ft_strchr(const char *string, int c);
+int			ft_strcmp(const char *s1, const char *s2);
 char		*ft_strdup(const char *s);
 char		*ft_strjoin(char const *s1, char const *s2);
 size_t		ft_strlcat(char *dst, const char *src, size_t dstsize);

@@ -6,12 +6,13 @@
 #    By: olramazz <olramazz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/30 16:08:43 by olramazz          #+#    #+#              #
-#    Updated: 2024/05/30 16:08:43 by olramazz         ###   ########.fr        #
+#    Updated: 2024/06/04 21:24:49 by olramazz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g -lm -I include -I my_libft
+CFLAGS = -Wall -Wextra -Werror -g -I include -I my_libft
+LDFLAGS = -L./minilibx-linux -lmlx -lXext -lX11
 
 SRC_DIR = src_fractol
 OBJ_DIR = obj
@@ -27,7 +28,7 @@ NAME = fractol
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) -o $@ $^
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c -o $@ $<

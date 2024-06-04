@@ -6,7 +6,7 @@
 /*   By: olramazz <olramazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 20:59:25 by olramazz          #+#    #+#             */
-/*   Updated: 2024/05/26 21:27:20 by olramazz         ###   ########.fr       */
+/*   Updated: 2024/06/04 21:14:00 by olramazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ int main(int argc, char **argv)
 	fractol = init_fractol(argv);
 		if (fractol == NULL)
 			exit(EXIT_FAILURE);
-	int draw_fractal(fractol, fractol->query, fractol->cx, fractol->cy);
-	mlx_key_hook(fractol.window, key_press, fractol);
-	mlx_mouse_hook(fractol.window, mouse_press, fractol);
-	mlx_loop(fractol.mlx);
+	draw_fractal(fractol, fractol->query, fractol->cx, fractol->cy);
+	mlx_key_hook(fractol->window, key_press, fractol);
+	mlx_mouse_hook(fractol->window, mouse_press, fractol);
+	mlx_loop(fractol->mlx);
 	return (0);
 }
