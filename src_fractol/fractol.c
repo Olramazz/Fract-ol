@@ -14,15 +14,15 @@
 
 int main(int argc, char **argv)
 {
-	t_fractal *fractal;
+	t_fractal *fractol;
 	if (check_args(argc, argv) != 0)
 		exit(EXIT_FAILURE);
-	fractal = init_fractol(argv);
-		if (fractal == NULL)
-			return (0);
-	int draw_fractal(fractal, argv[1], 0.0, 0.0)
-	mlx_key_hook(fractal.window, key_press, fractal);
-	mlx_mouse_hook(fractal.window, mouse_press, fractal);
-	mlx_loop(fractal.mlx);
+	fractol = init_fractol(argv);
+		if (fractol == NULL)
+			exit(EXIT_FAILURE);
+	int draw_fractal(fractol, fractol->query, fractol->cx, fractol->cy);
+	mlx_key_hook(fractol.window, key_press, fractol);
+	mlx_mouse_hook(fractol.window, mouse_press, fractol);
+	mlx_loop(fractol.mlx);
 	return (0);
 }

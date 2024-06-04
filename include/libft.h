@@ -15,6 +15,7 @@
 
 # include <stddef.h>
 
+double		ft_atof(const char *str);
 int			ft_atoi(const char *str);
 void		ft_bzero(void *str, size_t len);
 void		*ft_calloc(size_t num_elements, size_t element_size);
@@ -23,6 +24,7 @@ int			ft_isalpha(int c);
 int			ft_isascii(int c);
 int			ft_isdigit(int c);
 int			ft_isprint(int c);
+int			my_isspace(char c);
 char		*ft_itoa(int n);
 void		*ft_memccpy(void *dest, const void *src, int c, size_t n);
 void		*ft_memchr(const void *source, int charset, size_t n_bytes);

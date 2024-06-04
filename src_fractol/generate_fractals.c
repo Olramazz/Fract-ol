@@ -41,68 +41,89 @@ int draw_fractal(t_fractal *fractal, char *query, double cx, double cy)
  return (0);
 }
 
-void put_color_to_pixel(t_fractal *fractal, int x, int y, int color)
+void put_color_to_pixel(t_fractal *fractal, int x, int y, t_color color)
 {
  char *pixel;
 
  pixel = fractal->adress + (y * fractal->line_bytes + x
   * (fractal->pixel_bits / 8));
- *(unsigned int *)pixel = color;
+ *(unsigned int *)pixel = (color.r << 16) + (color.g << 8) + color.b;
 }
 
 void calculate_mandelbrot(t_fractal *fractal)
 {
- int  i;
- double x_temp;
+	int		i;
+	double	x_temp;
+	double	t;
+	t_color	color;
+	t_color	start_color,
+	t_color	end_color;
 
- fractal->query = "mandelbrot";
- i = 0;
- fractal->zx = 0.0;
- fractal->zy = 0.0;
- fractal->cx = (fractal->x / fractal->zoom) + fractal->offset_x;
- fractal->cy = (fractal->y / fractal->zoom) + fractal->offset_y;
- while (++i < fractal->max_iter)
- {
-  x_temp = fractal->zx * fractal->zx - fractal->zy * fractal->zy
-   + fractal->cx;
-  fractal->zy = 2. * fractal->zx * fractal->zy + fractal->cy;
-  fractal->zx = x_temp;
-  if (fractal->zx * fractal->zx + fractal->zy
-   * fractal->zy >= __DBL_MAX__)
-   break ;
- }
- if (i == fractal->max_iter)
-  put_color_to_pixel(fractal, fractal->x, fractal->y, 0x000000);
- else
-  put_color_to_pixel(fractal, fractal->x, fractal->y, (fractal->color
-    * i));
+	fractal->query = "mandelbrot";
+	fractal->zx = 0.0;
+	fractal->zy = 0.0;
+	fractal->cx = (fractal->x / fractal->zoom) + fractal->offset_x;
+	fractal->cy = (fractal->y / fractal->zoom) + fractal->offset_y;
+
+	i = 0;
+	while (++i < fractal->max_iter)
+	{
+		x_temp = fractal->zx * fractal->zx - fractal->zy * fractal->zy + fractal->cx;
+		fractal->zy = 2.0 * fractal->zx * fractal->zy + fractal->cy;
+		fractal->zx = x_temp;
+		if (fractal->zx * fractal->zx + fractal->zy * fractal->zy >= 4.0)
+			break;
+	}
+
+	if (i == fractal->max_iter)
+		color = (t_color){0, 0, 0};
+	else
+	{
+		t = (double)i / fractal->max_iter;
+		int idx = (int)(t * (PALETTE_SIZE - 1));
+        start_color = color_palette[idx];
+        end_color = color_palette[(idx + 1) % PALETTE_SIZE];
+        t = (t * (PALETTE_SIZE - 1)) - idx;
+        color = interpolate_color(start_color, end_color, t);
+    }
+
+    put_color_to_pixel(fractal, fractal->x, fractal->y, color);
 }
 
-void calculate_julia(t_fractal *fractal, double cx, double cy)
-{
- int  i;
- double tmp;
+void calculate_julia(t_fractal *fractal, double cx, double cy) {
+    int i;
+    double tmp;
+    double t;
+    t_color color;
+    t_color start_color, end_color;
 
- fractal->query = "julia";
- fractal->cx = cx;
- fractal->cy = cy;
- fractal->zx = fractal->x / fractal->zoom + fractal->offset_x;
- fractal->zy = fractal->y / fractal->zoom + fractal->offset_y;
- i = 0;
- while (++i < fractal->max_iter)
- {
-  tmp = fractal->zx;
-  fractal->zx = fractal->zx * fractal->zx - fractal->zy * fractal->zy
-   + fractal->cx;
-  fractal->zy = 2 * fractal->zy * tmp + fractal->cy;
-  if (fractal->zx * fractal->zx + fractal->zy
-   * fractal->zy >= __DBL_MAX__)
-   break ;
- }
- if (i == fractal->max_iter)
-  put_color_to_pixel(fractal, fractal->x, fractal->y, 0x000000);
- else
-  put_color_to_pixel(fractal, fractal->x, fractal->y, (fractal->color * (i        % 255)));
+    fractal->query = "julia";
+    fractal->cx = cx;
+    fractal->cy = cy;
+    fractal->zx = fractal->x / fractal->zoom + fractal->offset_x;
+    fractal->zy = fractal->y / fractal->zoom + fractal->offset_y;
+
+    i = 0;
+    while (++i < fractal->max_iter) {
+        tmp = fractal->zx;
+        fractal->zx = fractal->zx * fractal->zx - fractal->zy * fractal->zy + fractal->cx;
+        fractal->zy = 2 * fractal->zy * tmp + fractal->cy;
+        if (fractal->zx * fractal->zx + fractal->zy * fractal->zy >= 4.0)
+            break;
+    }
+
+    if (i == fractal->max_iter) {
+        color = (t_color){0, 0, 0}; // Black for points inside the fractal
+    } else {
+        t = (double)i / fractal->max_iter;
+        int idx = (int)(t * (PALETTE_SIZE - 1));
+        start_color = color_palette[idx];
+        end_color = color_palette[(idx + 1) % PALETTE_SIZE];
+        t = (t * (PALETTE_SIZE - 1)) - idx;
+        color = interpolate_color(start_color, end_color, t);
+    }
+
+    put_color_to_pixel(fractal, fractal->x, fractal->y, color);
 }
 
 void calculate_burning_ship(t_fractal *fractal)
