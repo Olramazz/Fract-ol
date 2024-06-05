@@ -6,7 +6,7 @@
 /*   By: olramazz <olramazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 20:58:21 by olramazz          #+#    #+#             */
-/*   Updated: 2024/06/04 21:13:54 by olramazz         ###   ########.fr       */
+/*   Updated: 2024/06/05 21:00:39 by olramazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@
 # include <stdlib.h>
 # include <stdio.h>
 
-# define SIZE 500
-# define MAX_ITER 100
+# define SIZE 800
+# define MAX_ITER 200
 # define PALETTE_SIZE 10
 
 typedef struct s_color
@@ -64,7 +64,7 @@ int			draw_fractal(t_fractal *fractal, char *query, double cx, double cy);
 void		put_color_to_pixel(t_fractal *fractal, int x, int y, t_color color);
 void		ft_error(char *str);
 t_color		interpolate_color(t_color start, t_color end, double ratio);
-void		end_program(t_fractal *fractal);
-void		exit_fractal(t_fractal *fractal);
+int			end_program(t_fractal *fractal);
+int			exit_fractal(t_fractal *fractal);
 
 #endif
