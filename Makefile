@@ -12,7 +12,7 @@
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g -I include -I my_libft
-LDFLAGS = -L./minilibx-linux -lmlx -lXext -lX11
+LDFLAGS = -L./minilibx-linux -lmlx -lXext -lX11 -lm
 
 SRC_DIR = src_fractol
 OBJ_DIR = obj

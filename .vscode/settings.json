@@ -1,6 +1,7 @@
 {
 	"files.associations": {
 		"fractol.h": "c",
-		"cstdlib": "c"
+		"cstdlib": "c",
+		"fractals.h": "c"
 	}
 }

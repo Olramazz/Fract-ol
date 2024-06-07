@@ -10,13 +10,27 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/fractol.h"
+#include "../include/fractals.h"
+
+
+int exit_fractal(t_fractal *fractal)
+{
+	if(fractal->image)
+		mlx_destroy_image(fractal->mlx, fractal->image);
+	if(fractal->window)
+		mlx_destroy_window(fractal->mlx, fractal->window);
+	if(fractal->mlx)
+		free(fractal->mlx);
+    free(fractal);
+    exit(EXIT_SUCCESS);
+	return (0) ;
+}
 
 int	key_press(int keycode, t_fractal *fractal)
 {
 	if (keycode == 65307)
 	{
-		end_program(fractal);
+		exit_fractal(fractal);
 		exit(EXIT_SUCCESS);
 	}
 	return (0);
@@ -40,25 +54,3 @@ int	mouse_press(int button, int x, int y, t_fractal *fractal)
 	return (0);
 }
 
-int end_program(t_fractal *fractal)
-{
-    mlx_destroy_image(fractal->mlx, fractal->image);
-    mlx_destroy_window(fractal->mlx, fractal->window);
-    mlx_destroy_display(fractal->mlx);
-    free(fractal->mlx);
-    free(fractal);
-    exit(EXIT_SUCCESS);
-    return (0);
-}
-
-void	ft_error(char *str)
-{
-	perror(str);
-	exit(EXIT_FAILURE);
-}
-
-int exit_fractal(t_fractal *fractal)
-{
-	end_program(fractal);
-	return(0);
-}
