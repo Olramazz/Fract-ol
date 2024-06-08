@@ -11,6 +11,9 @@
 /* ************************************************************************** */
 
 #include "../include/fractals.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 
 int main(int argc, char **argv)
 {
@@ -19,14 +22,13 @@ int main(int argc, char **argv)
     if (check_init(argc, argv, &fractal) != 0)
         return 1;
 
-    draw_fractal(&fractal, fractal.name, fractal.cx, fractal.cy);
+    draw_fractal(&fractal, fractal.query, fractal.cx, fractal.cy);
     mlx_hook(fractal.window, 17, 0, exit_fractal, &fractal);
     mlx_mouse_hook(fractal.window, mouse_press, &fractal);
     mlx_key_hook(fractal.window, key_press, &fractal);
     mlx_loop(fractal.mlx);
-
-    // Call exit_fractal to ensure cleanup
-    exit_fractal(&fractal);
     return 0;
 }
+
+
 
