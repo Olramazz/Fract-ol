@@ -21,6 +21,7 @@
 # include <float.h>
 
 # define SIZE 900
+# define ZOOM 500
 
 typedef struct s_fractal
 {
@@ -46,11 +47,13 @@ typedef struct s_fractal
     char    *name;
 }               t_fractal;
 
-int     draw_fractal(t_fractal *fractal, char *query, double cx, double cy);
-void    calculate_mandelbrot(t_fractal *fractal);
-void    calculate_julia(t_fractal *fractal, double cx, double cy);
-void    calculate_burning_ship(t_fractal *fractal);
-void    put_color_to_pixel(t_fractal *fractal, int x, int y, int color);
+int		check_init(int argc, char **argv, t_fractal *fractal);
+int		draw_fractal(t_fractal *fractal, char *query, double cx, double cy);
+void	calculate_mandelbrot(t_fractal *fractal);
+void	calculate_julia(t_fractal *fractal, double cx, double cy);
+void	calculate_burning_ship(t_fractal *fractal);
+int		get_psychedelic_color(int iteration, int max_iterations);
+void	put_color_to_pixel(t_fractal *fractal, int x, int y, int color);
 int		key_press(int keycode, t_fractal *fractal);
 int		mouse_press(int button, int x, int y, t_fractal *fractal);
 int		exit_fractal(t_fractal *fractal);

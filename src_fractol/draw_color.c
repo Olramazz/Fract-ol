@@ -41,20 +41,23 @@ int draw_fractal(t_fractal *fractal, char *query, double cx, double cy)
  return (0);
 }
 
-void put_color_to_pixel(t_fractal *fractal, int x, int y, int color)
+void put_color_to_pixel(t_fractal *fractal, int x, int y, int iteration)
 {
     int bpp;
     int size_line;
     int endian;
+    int pixel_pos;
+    char *pixel;
+    int color;
 
     bpp = fractal->bits_per_pixel / 8;
     size_line = fractal->size_line / bpp;
     endian = fractal->endian;
+
+    color = get_psychedelic_color(iteration, fractal->max_iterations);
+
     if (x >= 0 && x < SIZE && y >= 0 && y < SIZE)
     {
-        int pixel_pos;
-        char *pixel;
-
         pixel_pos = (y * size_line + x) * bpp;
         pixel = fractal->image_data + pixel_pos;
         if (endian == 0)
@@ -71,7 +74,6 @@ void put_color_to_pixel(t_fractal *fractal, int x, int y, int color)
         }
     }
 }
-
 
 
 

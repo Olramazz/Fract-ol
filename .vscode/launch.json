@@ -4,13 +4,13 @@
         "name": "(gdb) Launch",
         "type": "cppdbg",
         "request": "launch",
-        "program": "${workspaceFolder}/fractol",
+        "program": "C:/Users/user/Desktop/Fractol/fractol",
         "args": ["mandelbrot"],
         "stopAtEntry": false,
         "cwd": "${fileDirname}",
         "environment": [],
         "externalConsole": false,
-        "MIMode": "gdb",
+        "MIMode": "gdb"
     }
     ]
 }

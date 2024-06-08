@@ -14,29 +14,19 @@
 
 int main(int argc, char **argv)
 {
-    t_fractal   fractal;
-    char        *query;
+    t_fractal fractal;
 
-    if (argc != 2)
-    {
-        perror("Usage: ./fractal <fractal_type>\n");
-        return (1);
-    }
-    query = argv[1];
-    fractal.mlx = mlx_init();
-    fractal.window = mlx_new_window(fractal.mlx, SIZE, SIZE, "Fractal");
-    fractal.image = mlx_new_image(fractal.mlx, SIZE, SIZE);
-    fractal.image_data = mlx_get_data_addr(fractal.image, &fractal.bits_per_pixel, &fractal.size_line, &fractal.endian);
-    fractal.zoom = 200;
-    fractal.offset_x = -2.0;
-    fractal.offset_y = -1.5;
-    fractal.max_iterations = 1000;
-    fractal.color = 0x0066CC;
-    draw_fractal(&fractal, query, 0, 0);
-    mlx_hook(fractal.window, 2, 0, exit_fractal, &fractal);
+    if (check_init(argc, argv, &fractal) != 0)
+        return 1;
+
+    draw_fractal(&fractal, fractal.name, fractal.cx, fractal.cy);
+    mlx_hook(fractal.window, 17, 0, exit_fractal, &fractal);
     mlx_mouse_hook(fractal.window, mouse_press, &fractal);
     mlx_key_hook(fractal.window, key_press, &fractal);
     mlx_loop(fractal.mlx);
-    return (0);
+
+    // Call exit_fractal to ensure cleanup
+    exit_fractal(&fractal);
+    return 0;
 }
 
