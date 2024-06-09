@@ -48,6 +48,8 @@ int key_press(int keycode, t_fractal *fractal)
         fractal->offset_y -= move_factor / fractal->zoom;
     else if (keycode == 53) // ESC key
         exit_fractal(fractal);
+    else if (keycode == 49)
+        change_palette(fractal);
 
     draw_fractal(fractal, fractal->query, fractal->cx, fractal->cy);
     return (0);

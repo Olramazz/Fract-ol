@@ -54,6 +54,7 @@ int check_init(int argc, char **argv, t_fractal *fractal)
     fractal->offset_y = -1.5;
     fractal->max_iterations = 1000;
     fractal->color = 0x0066CC;
+    fractal->palette = 0;
 
     fractal->query = argv[1];
     if (ft_strcmp(fractal->query, "mandelbrot") == 0 || ft_strcmp(fractal->query, "burningship") == 0)
@@ -70,8 +71,8 @@ int check_init(int argc, char **argv, t_fractal *fractal)
             return 1;
         }
         fractal->name = fractal->query;
-        fractal->cx = atof(argv[2]);
-        fractal->cy = atof(argv[3]);
+        fractal->cx = ft_atof(argv[2]);
+        fractal->cy = ft_atof(argv[3]);
     }
     else
     {

@@ -72,6 +72,15 @@ void put_color_to_pixel(t_fractal *fractal, int x, int y, int color)
     }
 }
 
-
+void    change_palette(t_fractal *fractal)
+{
+    fractal->palette = (fractal->palette + 1) % 3;
+    if (fractal->palette == 0)
+        fractal->color = 0x0066CC;
+    else if (fractal->palette == 1)
+        fractal->color = 0xFF6600;
+    else if (fractal->palette == 2)
+        fractal->color = 0x66FF66;
+}
 
 
