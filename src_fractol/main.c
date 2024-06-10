@@ -15,17 +15,16 @@
 #include <stdio.h>
 #include <string.h>
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-    t_fractal fractal;
+	t_fractal	fractal;
 
 	if (check_init(argc, argv, &fractal) != 0)
-        return 1;
-
+		return (1);
 	draw_fractal(&fractal, fractal.query, fractal.cx, fractal.cy);
-    mlx_hook(fractal.window, 17, 0, exit_fractal, &fractal);
-    mlx_mouse_hook(fractal.window, mouse_press, &fractal);
-    mlx_key_hook(fractal.window, key_press, &fractal);
-    mlx_loop(fractal.mlx);
-    return 0;
+	mlx_hook(fractal.window, 17, 0, exit_fractal, &fractal);
+	mlx_mouse_hook(fractal.window, mouse_press, &fractal);
+	mlx_key_hook(fractal.window, key_press, &fractal);
+	mlx_loop(fractal.mlx);
+	return (0);
 }

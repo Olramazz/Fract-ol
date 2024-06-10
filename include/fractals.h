@@ -48,6 +48,7 @@ typedef struct s_fractal
 }               t_fractal;
 
 int     check_init(int argc, char **argv, t_fractal *fractal);
+int     init_fractal(int argc, char ** argv, t_fractal *fractal);
 int     draw_fractal(t_fractal *fractal, char *query, double cx, double cy);
 void    calculate_mandelbrot(t_fractal *fractal);
 void    calculate_julia(t_fractal *fractal, double cx, double cy);
