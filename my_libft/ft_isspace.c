@@ -14,5 +14,14 @@
 
 int	ft_isspace(char c)
 {
-	return (c == ' ' || c == '\n' || c == '\t' || c == '\v' || c == '\f' || c == '\r');
+	int	is_space;
+
+	is_space = 0;
+	is_space |= (c == ' ');
+	is_space |= (c == '\n');
+	is_space |= (c == '\t');
+	is_space |= (c == '\v');
+	is_space |= (c == '\f');
+	is_space |= (c == '\r');
+	return (is_space);
 }

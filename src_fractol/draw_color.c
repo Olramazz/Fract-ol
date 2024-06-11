@@ -41,32 +41,40 @@ int	draw_fractal(t_fractal *fractal, char *query, double cx, double cy)
 	return (0);
 }
 
-void put_color_to_pixel(t_fractal *fractal, int x, int y, int color) {
-    int bpp;
-    int size_line;
-    int endian;
-    int pixel_pos;
-    char *pixel;
-    const int *palette;
+void	assign_color_to_pixel(t_fractal *fractal, int x, int y, int p_c)
+{
+	int		bpp;
+	int		size_line;
+	int		endian;
+	int		pixel_pos;
+	char	*pixel;
 
-    palette = get_palette(fractal->palette_index);
+	bpp = fractal->bits_per_pixel / 8;
+	size_line = fractal->size_line / bpp;
+	endian = fractal->endian;
+	pixel_pos = (y * size_line + x) * bpp;
+	pixel = fractal->image_data + pixel_pos;
+	if (endian == 0)
+	{
+		pixel[0] = (p_c >> 16) & 0xFF;
+		pixel[1] = (p_c >> 8) & 0xFF;
+		pixel[2] = p_c & 0xFF;
+	}
+	else
+	{
+		pixel[0] = p_c & 0xFF;
+		pixel[1] = (p_c >> 8) & 0xFF;
+		pixel[2] = (p_c >> 16) & 0xFF;
+	}
+}
 
-    int palette_color = palette[color % PALETTE_SIZE];
+void	put_color_to_pixel(t_fractal *fractal, int x, int y, int color)
+{
+	const int	*palette;
+	int			p_c;
 
-    bpp = fractal->bits_per_pixel / 8;
-    size_line = fractal->size_line / bpp;
-    endian = fractal->endian;
-    if (x >= 0 && x < SIZE && y >= 0 && y < SIZE) {
-        pixel_pos = (y * size_line + x) * bpp;
-        pixel = fractal->image_data + pixel_pos;
-        if (endian == 0) {
-            pixel[0] = (palette_color >> 16) & 0xFF;
-            pixel[1] = (palette_color >> 8) & 0xFF;
-            pixel[2] = palette_color & 0xFF;
-        } else {
-            pixel[0] = palette_color & 0xFF;
-            pixel[1] = (palette_color >> 8) & 0xFF;
-            pixel[2] = (palette_color >> 16) & 0xFF;
-        }
-    }
+	palette = get_palette(fractal->palette_index);
+	p_c = palette[color % PALETTE_SIZE];
+	if (x >= 0 && x < SIZE && y >= 0 && y < SIZE)
+		assign_color_to_pixel(fractal, x, y, p_c);
 }

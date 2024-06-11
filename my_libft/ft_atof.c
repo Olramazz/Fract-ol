@@ -13,37 +13,54 @@
 #include "libft.h"
 #include <ctype.h>
 
+int	get_sign(const char **str)
+{
+	int	sign;
+
+	sign = 1;
+	if (**str == '-' || **str == '+')
+	{
+		if (**str == '-')
+			sign = -1;
+		*str += 1;
+	}
+	return (sign);
+}
+
+double	parse_fraction(const char **str)
+{
+	double	fraction;
+	double	divisor;
+
+	fraction = 0.0;
+	divisor = 10.0;
+	if (**str == '.')
+	{
+		*str += 1;
+		while (ft_isdigit(**str))
+		{
+			fraction += (**str - '0') / divisor;
+			divisor *= 10.0;
+			*str += 1;
+		}
+	}
+	return (fraction);
+}
+
 double	ft_atof(const char *str)
 {
-	double	result = 0.0;
-	double	fraction = 1.0;
-	int		sign = 1;
+	double	result;
+	int		sign;
 
 	while (ft_isspace(*str))
-	{
 		str++;
-	}
-	if (*str == '-' || *str == '+') {
-		if (*str == '-') {
-			sign = -1;
-		}
-		str++;
-	}
+	sign = get_sign(&str);
+	result = 0.0;
 	while (ft_isdigit(*str))
 	{
 		result = result * 10.0 + (*str - '0');
 		str++;
 	}
-	if (*str == '.')
-	{
-		str++;
-		while (ft_isdigit(*str))
-		{
-			fraction /= 10.0;
-			result += (*str - '0') * fraction;
-			str++;
-		}
-	}
-
+	result += parse_fraction(&str);
 	return (result * sign);
 }

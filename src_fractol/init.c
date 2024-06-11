@@ -12,17 +12,21 @@
 
 #include "../include/fractals.h"
 
-int	check_init(int argc, char **argv, t_fractal *fractal)
+void	check_args(int argc, char **argv)
 {
 	if (argc != 2 && argc != 4)
-		error_message("Usage: ./fractol <fractal> <real_part> <imaginary_part>\n");
-	if(argc < 2 || (ft_strcmp(argv[1], "mandelbrot") != 0
-		&& ft_strcmp(argv[1], "julia") != 0
-		&& ft_strcmp(argv[1], "burningship") != 0))
-		{
-			error_message("Available fractals: mandelbrot, julia, burningship\n");
-			exit(EXIT_FAILURE);
-		}
+		error_message("Usage: ./fractol <fractal> <real> <imaginary>\n");
+	if (argc < 2 || (ft_strcmp(argv[1], "mandelbrot") != 0
+			&& ft_strcmp(argv[1], "julia") != 0
+			&& ft_strcmp(argv[1], "burningship") != 0))
+	{
+		error_message("Available fractals: mandelbrot, julia, burningship\n");
+		exit(EXIT_FAILURE);
+	}
+}
+
+void	init_mlx(t_fractal *fractal)
+{
 	fractal->mlx = mlx_init();
 	if (!fractal->mlx)
 		error_message("Error: mlx_init failed\n");
@@ -36,22 +40,19 @@ int	check_init(int argc, char **argv, t_fractal *fractal)
 			&fractal->bits_per_pixel, &fractal->size_line, &fractal->endian);
 	if (!fractal->image_data)
 		error_message("Error: mlx_get_data_addr failed\n");
-	init_fractal(argc, argv, fractal);
+}
+
+int	check_init(int argc, char **argv, t_fractal *fractal)
+{
+	check_args(argc, argv);
+	init_mlx(fractal);
 	if (init_fractal(argc, argv, fractal) != 0)
 		return (1);
 	return (0);
 }
 
-int	init_fractal(int argc, char **argv, t_fractal *fractal)
+void	set_fractal_name(int argc, char **argv, t_fractal *fractal)
 {
-	fractal->zoom = 200;
-	fractal->offset_x = -2.0;
-	fractal->offset_y = -1.5;
-	fractal->max_iterations = 1000;
-	fractal->color = 0x0066CC;
-	fractal->palette_index = 0;
-	if(argc >= 2)
-		fractal->query = argv[1];
 	if (ft_strcmp(fractal->query, "mandelbrot") == 0
 		|| ft_strcmp(fractal->query, "burningship") == 0)
 	{
@@ -62,12 +63,33 @@ int	init_fractal(int argc, char **argv, t_fractal *fractal)
 	else if (ft_strcmp(fractal->query, "julia") == 0)
 	{
 		if (argc != 4)
+		{
 			error_message("Usage: for julia <real_part> <imaginary_part>\n");
+			exit_fractal(fractal);
+			exit(EXIT_FAILURE);
+		}
 		fractal->name = fractal->query;
 		fractal->cx = ft_atof(argv[2]);
 		fractal->cy = ft_atof(argv[3]);
 	}
 	else
+	{
 		error_message("Available fractals: mandelbrot, julia, burningship\n");
+		exit_fractal(fractal);
+		exit(EXIT_FAILURE);
+	}
+}
+
+int	init_fractal(int argc, char **argv, t_fractal *fractal)
+{
+	fractal->zoom = 200;
+	fractal->offset_x = -2.0;
+	fractal->offset_y = -1.5;
+	fractal->max_iterations = 1000;
+	fractal->color = 0x0066CC;
+	fractal->palette_index = 0;
+	if (argc >= 2)
+		fractal->query = argv[1];
+	set_fractal_name(argc, argv, fractal);
 	return (0);
 }
