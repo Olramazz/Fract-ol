@@ -27,6 +27,12 @@ int	exit_fractal(t_fractal *fractal)
 	return (0);
 }
 
+int error_message(char *message)
+{
+	perror(message);
+	return (1);
+}
+
 int	key_press(int keycode, t_fractal *fractal)
 {
 	double	move_factor;
@@ -45,10 +51,14 @@ int	key_press(int keycode, t_fractal *fractal)
 		fractal->offset_y += move_factor / fractal->zoom;
 	else if (keycode == 65362)
 		fractal->offset_y -= move_factor / fractal->zoom;
+	else if (keycode == 49)
+		fractal->palette_index = 0;
+	else if (keycode == 50)
+		fractal->palette_index = 1;
+	else if (keycode == 51)
+		fractal->palette_index = 2;
 	else if (keycode == 53)
 		exit_fractal(fractal);
-	else if (keycode == 49)
-		change_palette(fractal);
 	draw_fractal(fractal, fractal->query, fractal->cx, fractal->cy);
 	return (0);
 }

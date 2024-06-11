@@ -15,36 +15,27 @@
 int	check_init(int argc, char **argv, t_fractal *fractal)
 {
 	if (argc != 2 && argc != 4)
-	{
-		perror("Usage: ./fractol [mandelbrot/julia/burningship]\n");
-		perror("Usage: ./fractol julia <real_part> <imaginary_part>\n");
-		return (1);
-	}
+		error_message("Usage: ./fractol <fractal> <real_part> <imaginary_part>\n");
+	if(argc < 2 || (ft_strcmp(argv[1], "mandelbrot") != 0
+		&& ft_strcmp(argv[1], "julia") != 0
+		&& ft_strcmp(argv[1], "burningship") != 0))
+		{
+			error_message("Available fractals: mandelbrot, julia, burningship\n");
+			exit(EXIT_FAILURE);
+		}
 	fractal->mlx = mlx_init();
 	if (!fractal->mlx)
-	{
-		perror("Error: mlx_init failed\n");
-		return (1);
-	}
+		error_message("Error: mlx_init failed\n");
 	fractal->window = mlx_new_window(fractal->mlx, SIZE, SIZE, "Fractal");
 	if (!fractal->window)
-	{
-		perror("Error: mlx_new_window failed\n");
-		return (1);
-	}
+		error_message("Error: mlx_new_window failed\n");
 	fractal->image = mlx_new_image(fractal->mlx, SIZE, SIZE);
 	if (!fractal->image)
-	{
-		perror("Error: mlx_new_image failed\n");
-		return (1);
-	}
+		error_message("Error: mlx_new_image failed\n");
 	fractal->image_data = mlx_get_data_addr(fractal->image,
 			&fractal->bits_per_pixel, &fractal->size_line, &fractal->endian);
 	if (!fractal->image_data)
-	{
-		perror("Error: mlx_get_data_addr failed\n");
-		return (1);
-	}
+		error_message("Error: mlx_get_data_addr failed\n");
 	init_fractal(argc, argv, fractal);
 	if (init_fractal(argc, argv, fractal) != 0)
 		return (1);
@@ -58,8 +49,9 @@ int	init_fractal(int argc, char **argv, t_fractal *fractal)
 	fractal->offset_y = -1.5;
 	fractal->max_iterations = 1000;
 	fractal->color = 0x0066CC;
-	fractal->palette = 0;
-	fractal->query = argv[1];
+	fractal->palette_index = 0;
+	if(argc >= 2)
+		fractal->query = argv[1];
 	if (ft_strcmp(fractal->query, "mandelbrot") == 0
 		|| ft_strcmp(fractal->query, "burningship") == 0)
 	{
@@ -70,19 +62,12 @@ int	init_fractal(int argc, char **argv, t_fractal *fractal)
 	else if (ft_strcmp(fractal->query, "julia") == 0)
 	{
 		if (argc != 4)
-		{
-			perror("Usage: ./fractol julia <real_part> <imaginary_part>\n");
-			return (1);
-		}
+			error_message("Usage: for julia <real_part> <imaginary_part>\n");
 		fractal->name = fractal->query;
 		fractal->cx = ft_atof(argv[2]);
 		fractal->cy = ft_atof(argv[3]);
 	}
 	else
-	{
-		perror("Available fractals: mandelbrot, julia, burningship\n");
-		return (1);
-	}
+		error_message("Available fractals: mandelbrot, julia, burningship\n");
 	return (0);
 }
-
