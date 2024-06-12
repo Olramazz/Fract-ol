@@ -15,11 +15,15 @@
 void	check_args(int argc, char **argv)
 {
 	if (argc != 2 && argc != 4)
+	{
+		write(1, "You are about to discover how reality is built\n", 48);
 		error_message("Usage: ./fractol <fractal> <real> <imaginary>\n");
+	}
 	if (argc < 2 || (ft_strcmp(argv[1], "mandelbrot") != 0
 			&& ft_strcmp(argv[1], "julia") != 0
 			&& ft_strcmp(argv[1], "burningship") != 0))
 	{
+		write(1, "You really want to know the secrets of the universe?\n", 54);
 		error_message("Available fractals: mandelbrot, julia, burningship\n");
 		exit(EXIT_FAILURE);
 	}
@@ -62,11 +66,10 @@ void	set_fractal_name(int argc, char **argv, t_fractal *fractal)
 	}
 	else if (ft_strcmp(fractal->query, "julia") == 0)
 	{
-		if (argc != 4)
+		if ((argc != 4) || !ft_isfloat(argv[2]) || !ft_isfloat(argv[3]))
 		{
-			error_message("Usage: for julia <real_part> <imaginary_part>\n");
+			write(1, "Usage: ./fractol julia <real> <imaginary>\n", 42);
 			exit_fractal(fractal);
-			exit(EXIT_FAILURE);
 		}
 		fractal->name = fractal->query;
 		fractal->cx = ft_atof(argv[2]);
@@ -90,6 +93,8 @@ int	init_fractal(int argc, char **argv, t_fractal *fractal)
 	fractal->palette_index = 0;
 	if (argc >= 2)
 		fractal->query = argv[1];
+	else
+		error_message("Usage: ./fractol <fractal> <real> <imaginary>\n");
 	set_fractal_name(argc, argv, fractal);
 	return (0);
 }

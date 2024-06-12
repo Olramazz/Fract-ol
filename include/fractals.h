@@ -19,6 +19,7 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <float.h>
+# include <unistd.h>
 
 # define SIZE 900
 #define PALETTE_SIZE 16
